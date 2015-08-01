@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Geolocation</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <div id="map" style="width: 500px; height: 400px;"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+
+    <script>
+// Note: This example requires that you consent to location sharing when
+// prompted by your browser. If you see a blank space instead of the map, this
+// is probably because you have denied permission for location sharing.
+
+var map;
+var lat;
+var longi;
+
+function recommandFunction() {
+
+}
+
+function initialize() {
+  var mapOptions = {
+    zoom: 6
+  };
+  map = new google.maps.Map(document.getElementById('map'),
+      mapOptions);
+
+  // Try HTML5 geolocation
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+
+      lat=position.coords.latitude;
+      longi=position.coords.longitude;
+
+      var pos = new google.maps.LatLng(lat,
+                                       longi);
+
+      var infowindow = new google.maps.InfoWindow({
+        map: map,
+        position: pos,
+        content: 'Location found using HTML5. ^__^'
+      });
+
+      map.setCenter(pos);
+    }, function() {
+      handleNoGeolocation(true);
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleNoGeolocation(false);
+  }
+}
+
+function handleNoGeolocation(errorFlag) {
+  if (errorFlag) {
+    var content = 'Error: The Geolocation service failed.';
+  } else {
+    var content = 'Error: Your browser doesn\'t support geolocation.';
+  }
+
+  var options = {
+    map: map,
+    position: new google.maps.LatLng(60, 105),
+    content: content
+  };
+
+  var infowindow = new google.maps.InfoWindow(options);
+  map.setCenter(options.position);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+    <button type="submit" name="recBtn" onclick="recommandFunction()"> Recomman! :) </button>
+  </body>
+</html>
